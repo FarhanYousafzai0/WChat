@@ -2,7 +2,7 @@ import { Avatar, InputBase, Divider, List, ListItem, ListItemAvatar, ListItemTex
 import { Search, MoreVert, FiberManualRecord } from '@mui/icons-material';
 import React from 'react';
 
-const Sidebar = () => {
+const Sidebar = ({ setSelectedUser }) => {
   // Dummy data for chat users
   const dummyUsers = [
     {
@@ -53,21 +53,26 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className='w-[400px] h-full flex flex-col  border-r border-gray-200'>
+    <div className='w-[600px] h-full flex flex-col border-r border-gray-200 bg-white'>
       {/* Header */}
-      <div className='flex items-center justify-between p-4 bg-purple-600 '>
+      <div className='flex items-center justify-between p-4 bg-gradient-to-r from-[#6C63FF] to-[#4FC3F7]'>
         <div className='flex items-center'>
-          <Avatar src='' alt='Farhan' sx={{ width: 45, height: 45 }} className='cursor-pointer' />
+          <Avatar 
+            src='' 
+            alt='User' 
+            sx={{ width: 45, height: 45 }} 
+            className='cursor-pointer border-2 border-white'
+          />
           <span className='ml-3 font-semibold text-lg text-white'>Chats</span>
         </div>
-        <IconButton>
+        <IconButton className='text-white hover:bg-white/10'>
           <MoreVert />
         </IconButton>
       </div>
 
       {/* Search */}
-      <div className='p-3 bg-purple-600'>
-        <div className='flex items-center bg-[#f0f2f5] rounded-lg px-3 py-1'>
+      <div className='p-3 bg-gradient-to-r from-[#6C63FF]/10 to-[#4FC3F7]/10'>
+        <div className='flex items-center bg-white rounded-lg px-3 py-2 shadow-sm'>
           <Search fontSize='small' className='text-gray-500' />
           <InputBase
             placeholder='Search or start new chat'
@@ -84,15 +89,22 @@ const Sidebar = () => {
             <React.Fragment key={user.id}>
               <ListItem 
                 alignItems="flex-start" 
-                className='hover:bg-gray-100 cursor-pointer'
+                className={`hover:bg-gray-50 cursor-pointer transition-colors duration-150 ${user.unread > 0 ? 'bg-blue-50' : ''}`}
+                onClick={() => setSelectedUser(user)}
                 secondaryAction={
-                  <div className='flex flex-col items-end'>
-                    <span className='text-xs text-gray-500'>{user.time}</span>
+                  <div className='flex flex-col items-end space-y-1'>
+                    <span className={`text-xs ${user.unread > 0 ? 'text-[#6C63FF] font-medium' : 'text-gray-500'}`}>
+                      {user.time}
+                    </span>
                     {user.unread > 0 && (
                       <Badge 
                         badgeContent={user.unread} 
-                        color="primary" 
-                        className='mt-1'
+                        sx={{
+                          '& .MuiBadge-badge': {
+                            backgroundColor: '#6C63FF',
+                            color: 'white'
+                          }
+                        }}
                       />
                     )}
                   </div>
@@ -100,28 +112,45 @@ const Sidebar = () => {
               >
                 <ListItemAvatar>
                   <div className='relative'>
-                    <Avatar alt={user.name} src={user.avatar} />
+                    <Avatar 
+                      alt={user.name} 
+                      src={user.avatar} 
+                      sx={{ width: 48, height: 48 }}
+                      className='border-2 border-white'
+                    />
                     {user.online && (
                       <FiberManualRecord 
                         fontSize='small' 
-                        color='primary' 
-                        className='absolute bottom-0 right-0'
-                        sx={{ fontSize: '12px' }}
+                        sx={{ 
+                          color: '#4FC3F7',
+                          position: 'absolute',
+                          bottom: 0,
+                          right: 0,
+                          fontSize: '16px',
+                          backgroundColor: 'white',
+                          borderRadius: '50%'
+                        }}
                       />
                     )}
                   </div>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={user.name}
-                  primaryTypographyProps={{ fontWeight: 'medium' }}
+                  primary={
+                    <span className={`font-medium ${user.unread > 0 ? 'text-[#6C63FF]' : 'text-gray-800'}`}>
+                      {user.name}
+                    </span>
+                  }
                   secondary={
-                    <span className='truncate text-sm text-gray-600'>
+                    <span className={`truncate text-sm ${user.unread > 0 ? 'font-medium' : 'text-gray-600'}`}>
                       {user.lastMessage}
                     </span>
                   }
+                  sx={{
+                    marginLeft: '12px'
+                  }}
                 />
               </ListItem>
-              <Divider variant="inset" component="li" />
+              <Divider variant="inset" component="li" sx={{ marginLeft: '72px' }} />
             </React.Fragment>
           ))}
         </List>
