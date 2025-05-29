@@ -12,47 +12,36 @@ const MessagePanel = ({ selectedUser }) => {
 
   useEffect(() => {
     SocketRef.current = io('http://localhost:1576');
-    return () => SocketRef.current.disconnect(); // ✅ fixed typo
-  }, []); // ✅ added dependency array
+    return () => SocketRef.current.disconnect();
+  }, []);
 
   const handleMessage = () => {
-    if (message.trim() !== "") {
+    if (message.trim() !== '') {
       const newMessage = {
         sent: true,
         time: Date.now(),
         message,
       };
-      SocketRef.current.emit("Sent-Message", newMessage);
+      SocketRef.current.emit('Sent-Message', newMessage);
       setSendMessage((prev) => [...prev, newMessage]);
-      setMessage(""); // ✅ clear input after sending
+      setMessage('');
     }
   };
 
-
-  // Received-Message:
-
-  useEffect(()=>{
- 
-    SocketRef.current.on("Received-Message",(data)=>{
+  // Receive messages
+  useEffect(() => {
+    SocketRef.current.on('Received-Message', (data) => {
       const newMessage = {
-        sent:false,
-        time:Date.now(),
-        message:data?.message
-      }
-      setSendMessage((prev)=> [...prev,newMessage]);
-    })
+        sent: false,
+        time: Date.now(),
+        message: data?.message,
+      };
+      setReceivedMessage((prev) => [...prev, newMessage]);
+    });
+  }, []);
 
-  })
-
-
-// Merge both arrays:
-
-
-const allMessage = [...sendMessages,...receivedMessage].sort((a,b)=>{
-  a.time - b.time
-})
-
-
+  // Merge and sort all messages by time
+  const allMessage = [...sendMessages, ...receivedMessage].sort((a, b) => a.time - b.time);
 
   return (
     <div className='flex flex-col h-full w-full bg-[#e5ddd5]'>
@@ -85,27 +74,20 @@ const allMessage = [...sendMessages,...receivedMessage].sort((a,b)=>{
 
       {/* Messages area */}
       <div className='flex-1 p-4 overflow-y-auto bg-[#e5ddd5] bg-opacity-30'>
-        {/* Example structure */}
-
-
-
-       {allMessage?.map((item,index)=>{
-          
-
-
-        })}
-        <div className='flex mb-4 justify-start'>
-          <div className='max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-white'>
-            <p>Sample received message</p>
-            <p className='text-xs text-gray-500 text-right mt-1'>10:30 AM</p>
+        {allMessage.map((item, index) => (
+          <div key={index} className={`flex mb-4 ${item.sent ? 'justify-end' : 'justify-start'}`}>
+            <div
+              className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                item.sent ? 'bg-[#d9fdd3]' : 'bg-white'
+              }`}
+            >
+              <p>{item.message}</p>
+              <p className='text-xs text-gray-500 text-right mt-1'>
+                {new Date(item.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </p>
+            </div>
           </div>
-        </div>
-        <div className='flex mb-4 justify-end'>
-          <div className='max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-[#d9fdd3]'>
-            <p>Sample sent message</p>
-            <p className='text-xs text-gray-500 text-right mt-1'>10:32 AM</p>
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Message input */}
@@ -117,14 +99,14 @@ const allMessage = [...sendMessages,...receivedMessage].sort((a,b)=>{
           <AttachFile />
         </IconButton>
         <input
-          type="text"
+          type='text'
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder='Type a message'
           className='flex-1 mx-3 p-2 bg-gray-100 rounded-full outline-none px-4'
         />
         <IconButton onClick={handleMessage}>
-         <Send /> 
+          <Send />
         </IconButton>
       </div>
     </div>
