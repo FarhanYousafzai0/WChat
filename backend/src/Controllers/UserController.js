@@ -4,7 +4,7 @@ import User from '../Models/UserMode.js';
 
 // Generate JWT Token
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '15d' });
+  return jwt.sign({ id }, process.env.SECRET, { expiresIn: '15d' });
 };
 
 // Register Controller
