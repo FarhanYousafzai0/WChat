@@ -53,12 +53,12 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className='w-[300px] h-full flex flex-col bg-[#f8f9fa] border-r border-gray-200'>
+    <div className='w-[400px] h-full flex flex-col  border-r border-gray-200'>
       {/* Header */}
-      <div className='flex items-center justify-between p-4 bg-white shadow-sm'>
+      <div className='flex items-center justify-between p-4 bg-purple-600 '>
         <div className='flex items-center'>
           <Avatar src='' alt='Farhan' sx={{ width: 45, height: 45 }} className='cursor-pointer' />
-          <span className='ml-3 font-semibold text-lg'>Chats</span>
+          <span className='ml-3 font-semibold text-lg text-white'>Chats</span>
         </div>
         <IconButton>
           <MoreVert />
@@ -66,7 +66,7 @@ const Sidebar = () => {
       </div>
 
       {/* Search */}
-      <div className='p-3 bg-white'>
+      <div className='p-3 bg-purple-600'>
         <div className='flex items-center bg-[#f0f2f5] rounded-lg px-3 py-1'>
           <Search fontSize='small' className='text-gray-500' />
           <InputBase
