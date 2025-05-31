@@ -13,7 +13,7 @@ const initialState = {
   allUsers: [],
 };
 
-// ✅ Register
+// ✅ RegisterJ
 export const createUserData = createAsyncThunk(
   "user/register",
   async (userData, thunkAPI) => {
@@ -38,7 +38,7 @@ export const loginUserData = createAsyncThunk(
 );
 
 
-// All User:
+// ✅ All User:
 
 export const AllUserData = createAsyncThunk('Users',async(_,thunkAPI)=>{
 try {
