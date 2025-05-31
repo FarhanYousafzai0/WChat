@@ -1,4 +1,4 @@
-import { Messages } from "../Models/MessagesModel"
+import { Messages } from "../Models/MessagesModel.js"
 
 
 
