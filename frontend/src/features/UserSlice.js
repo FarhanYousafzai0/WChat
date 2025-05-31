@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createUser, loginUser, clearUser } from "./UserService";
+import { createUser, loginUser, clearUser, AllUsers } from "./UserService";
 
 const storedUser = JSON.parse(localStorage.getItem("user"));
 
@@ -36,6 +36,17 @@ export const loginUserData = createAsyncThunk(
     }
   }
 );
+
+
+// All User:
+
+export const AllUserData = createAsyncThunk('Users',async(_,thunkAPI)=>{
+try {
+  return await AllUsers();
+} catch (error) {
+  thunkAPI.rejectWithValue(error.response.data.message)
+}
+})
 
 // ✅ Slice
 const userSlice = createSlice({
@@ -85,6 +96,21 @@ const userSlice = createSlice({
         state.userError = true;
         state.userMessage = action.payload;
         state.user = null;
+      })
+//       All-Users:
+       .addCase(AllUserData.pending, (state) => {
+        state.userLoading = true;
+      })
+      .addCase(AllUserData.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.userSuccess = true;
+        state.allUsers = action.payload;
+      })
+      .addCase(AllUserData.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = true;
+        state.userMessage = action.payload;
+        
       });
   },
 });

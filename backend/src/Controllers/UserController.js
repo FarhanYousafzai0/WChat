@@ -111,3 +111,19 @@ export const LoginUser = async(req,res)=>{
   });
 };
 
+
+
+
+// ALl-Users:
+
+
+
+export const GetAllUsers = async(req,res)=>{
+
+  const AllUsers = await User.find();
+if(!AllUsers){
+  res.status(400).json({message:"Users not found."});
+}
+  res.status(200).json(AllUsers);
+
+}

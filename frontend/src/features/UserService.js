@@ -30,3 +30,10 @@ export const loginUser = async (userData) => {
   saveUser(response.data);
   return response.data;
 };
+
+
+
+export const AllUsers = async()=>{
+
+  const response = await axios.get(`${BASE_URL}/Users`);
+}
