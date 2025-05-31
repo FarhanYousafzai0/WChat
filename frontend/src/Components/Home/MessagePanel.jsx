@@ -50,10 +50,10 @@ const MessagePanel = ({ selectedUser }) => {
   const allMessage = [...sendMessages, ...receivedMessage].sort((a, b) => a.time - b.time);
 
   return (
-    <div className='flex flex-col h-full w-full bg-[#f5f7fa]'>
+    <div className='flex flex-col h-full w-full bg-[#f5f7fa] '>
       {/* Chat header */}
       {selectedUser ? (
-        <div className='flex items-center justify-between p-4 bg-gradient-to-r from-[#6C63FF] to-[#4FC3F7]'>
+        <div className='flex items-center justify-between p-4 bg-blue-400'>
           <div className='flex items-center'>
             <Avatar src={selectedUser.avatar} alt={selectedUser.name} />
             <div className='ml-3'>
@@ -73,7 +73,7 @@ const MessagePanel = ({ selectedUser }) => {
           </div>
         </div>
       ) : (
-        <div className='flex items-center justify-between p-4 bg-gradient-to-r from-[#6C63FF] to-[#4FC3F7] text-white'>
+        <div className='flex items-center justify-between p-4 bg-gradient-to-r rounded bg-blue-400 text-white'>
           <p className='font-semibold text-lg'>Select a chat to start messaging</p>
         </div>
       )}
