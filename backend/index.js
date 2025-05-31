@@ -5,6 +5,7 @@ import { Server } from 'socket.io';
 import bcrypt from 'bcrypt';
 import http from 'http';
 import Router from './src/Routes/UserRoutes.js';
+import MessageRouter from './src/Routes/MessagesRoutes.js'
 import connect from './Database/Connet.js';
 
 dotenv.config();
@@ -43,6 +44,7 @@ app.use(cors());
 
 // Example test route
 app.use('/api/user',Router);
+app.use('/api/messages',MessageRouter);
 
 // ✅ Start server
 const PORT = process.env.PORT || 5000;
