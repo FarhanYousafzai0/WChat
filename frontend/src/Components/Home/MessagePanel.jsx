@@ -50,15 +50,15 @@ const MessagePanel = ({ selectedUser }) => {
   const allMessage = [...sendMessages, ...receivedMessage].sort((a, b) => a.time - b.time);
 
   return (
-    <div className='flex flex-col h-full w-full bg-[#f5f7fa] '>
+    <div className='flex flex-col h-full rounded-md w-full bg-gradient-to-br from-blue-400/10 via-purple-500/10 to-indigo-600/10 backdrop-blur-sm'>
       {/* Chat header */}
       {selectedUser ? (
-        <div className='flex items-center justify-between p-4 bg-blue-400'>
+        <div className='flex items-center justify-between p-4  bg-gradient-to-r from-blue-400 to-indigo-600  border-b border-white/20'>
           <div className='flex items-center'>
-            <Avatar src={selectedUser.avatar} alt={selectedUser.name} />
+            <Avatar src={selectedUser.avatar} alt={selectedUser.name} className='border-2 border-white' />
             <div className='ml-3'>
-              <p className='font-semibold text-lg'>{selectedUser?.name || 'Select a chat'}</p>
-              <p className='text-xs text-white opacity-80'>
+              <p className='font-semibold text-lg text-white'>{selectedUser?.name || 'Select a chat'}</p>
+              <p className='text-xs text-white/80'>
                 {selectedUser?.online ? 'Online' : 'Offline'}
               </p>
             </div>
@@ -73,15 +73,15 @@ const MessagePanel = ({ selectedUser }) => {
           </div>
         </div>
       ) : (
-        <div className='flex items-center justify-between p-4 bg-gradient-to-r rounded bg-blue-400 text-white'>
+        <div className='flex items-center text-white justify-between p-4   bg-gradient-to-b from-blue-400 to-indigo-600'>
           <p className='font-semibold text-lg'>Select a chat to start messaging</p>
         </div>
       )}
 
       {/* Messages area */}
-      <div className='flex-1 p-4 overflow-y-auto bg-[#f5f7fa] bg-[url("https://web.whatsapp.com/img/bg-chat-tile-light_a4be512e.png")]'>
+      <div className='flex-1 p-4 overflow-y-auto bg-gradient-to-br from-blue-400/5 via-purple-500/5 to-indigo-600/5 backdrop-blur-sm'>
         {allMessage.length === 0 ? (
-          <div className='flex flex-col items-center justify-center h-full text-gray-500'>
+          <div className='flex flex-col items-center justify-center h-full text-white/70'>
             <p>No messages yet</p>
             <p className='text-sm'>Start a conversation!</p>
           </div>
@@ -94,8 +94,8 @@ const MessagePanel = ({ selectedUser }) => {
               <div
                 className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg shadow-sm ${
                   item.sent 
-                    ? 'bg-[#6C63FF] text-white rounded-tr-none' 
-                    : 'bg-white text-gray-800 rounded-tl-none'
+                    ? 'bg-gradient-to-r from-blue-400 to-indigo-500 text-white rounded-tr-none' 
+                    : 'bg-white/90 text-gray-800 rounded-tl-none'
                 }`}
               >
                 <p className='break-words'>{item.message}</p>
@@ -112,11 +112,11 @@ const MessagePanel = ({ selectedUser }) => {
       </div>
 
       {/* Message input */}
-      <div className='bg-white p-3 flex items-center border-t border-gray-200'>
-        <IconButton className='text-[#6C63FF] hover:bg-[#6C63FF]/10'>
+      <div className='bg-white/10 backdrop-blur-lg p-3 flex items-center border-t border-white/20'>
+        <IconButton className='text-white hover:bg-white/10'>
           <InsertEmoticon />
         </IconButton>
-        <IconButton className='text-[#6C63FF] hover:bg-[#6C63FF]/10'>
+        <IconButton className='text-white hover:bg-white/10'>
           <AttachFile />
         </IconButton>
         <input
@@ -127,11 +127,11 @@ const MessagePanel = ({ selectedUser }) => {
             if (e.key === 'Enter') handleMessage();
           }}
           placeholder='Type a message'
-          className='flex-1 mx-3 p-2 bg-gray-100 rounded-full outline-none px-4 focus:bg-gray-200 transition-all duration-200'
+          className='flex-1 mx-3 p-2 bg-white/20 text-black placeholder-white/50 rounded-full outline-none px-4 focus:bg-white/30 transition-all duration-200'
         />
         <IconButton 
           onClick={handleMessage}
-          className={`text-white ${message.trim() ? 'bg-[#6C63FF] hover:bg-[#5a52e0]' : 'bg-gray-400'}`}
+          className={`text-white ${message.trim() ? 'bg-gradient-to-r from-blue-400 to-indigo-500 hover:from-blue-500 hover:to-indigo-600' : ''}`}
         >
           <Send />
         </IconButton>

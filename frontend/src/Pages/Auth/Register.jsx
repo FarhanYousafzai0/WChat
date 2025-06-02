@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import {InfinitySpin} from 'react-loader-spinner'
 import {
   EnvelopeIcon,
   UserIcon,
@@ -151,13 +152,13 @@ export default function Register() {
                   value={gender}
                   onChange={handleChange}
                   required
-                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-black placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent appearance-none"
+                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white cursor-pointer placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent appearance-none"
                 >
                   <option value="" disabled>Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                  <option value="prefer-not-to-say">Prefer not to say</option>
+                  <option value="male" className='text-black cursor-pointer'>Male</option>
+                  <option value="female"  className='text-black cursor-pointer' >Female</option>
+                  <option value="other" className='text-black cursor-pointer' >Other</option>
+                  <option value="prefer-not-to-say" className='text-black cursor-pointer' >Prefer not to say</option>
                 </select>
               </div>
             </div>
@@ -167,9 +168,14 @@ export default function Register() {
               disabled={userLoading}
               className={`w-full ${
                 userLoading ? 'bg-gray-300 cursor-not-allowed' : 'bg-white'
-              } text-blue-600 py-3 px-4 rounded-lg cursor-pointer font-medium hover:bg-gray-100 transition duration-200 focus:outline-none`}
+              } text-blue-600 py-3 px-4 rounded-lg cursor-pointer flex items-center justify-center font-medium hover:bg-gray-100 transition duration-200 focus:outline-none`}
             >
-              {userLoading ? 'Creating...' : 'Create Account'}
+              {userLoading ?  <InfinitySpin 
+  visible={true}
+  width="80"
+  color="purple"
+  ariaLabel="infinity-spin-loading"
+  /> : 'Create account'}
             </button>
           </form>
 
@@ -177,7 +183,7 @@ export default function Register() {
             <p className="text-white/70">
               Already have an account?{' '}
               <Link
-                to="/login"
+                to="/"
                 className="text-white font-medium hover:underline focus:outline-none focus:underline"
               >
                 Sign in

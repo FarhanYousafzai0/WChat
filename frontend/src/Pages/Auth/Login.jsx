@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { EnvelopeIcon, UserIcon, LockClosedIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { loginUserData } from '../../features/UserSlice';
+import { InfinitySpin } from 'react-loader-spinner';
 
 export default function Login() {
   const [formData, setFormData] = useState({
     identifier: '', // can be email or username
     password: '',
   });
+
+
+  const {identifier,password} = formData
   const [showPassword, setShowPassword] = useState(false);
   const [isEmail, setIsEmail] = useState(false);
   const navigate = useNavigate();
@@ -22,11 +29,37 @@ export default function Login() {
     
   };
 
+  const dispatch = useDispatch();
+
+  const {userSuccess,userError,userLoading} = useSelector((state)=>state.auth);
+  useEffect(()=>{
+
+  if(userSuccess){
+    toast.success("Login successfully!")
+      navigate('/home');
+  }
+
+  if(userError){
+
+    toast.error(userError)
+  }
+
+
+  },[])
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Login data:', formData);
-    // Add your authentication logic here
-    navigate('/home'); // Redirect after login
+  
+
+    const loginData = {
+      identifier,
+      password,
+    }
+
+    dispatch(loginUserData(loginData));
+
+
   };
 
   return (
@@ -50,24 +83,24 @@ export default function Login() {
                 </div>
                 <input
                   type="text"
-                  name="login"
+                  name="identifier"
                   placeholder="Email or username"
-                  value={formData.identifier}
+                  value={identifier}
                   onChange={handleChange}
                   required
-                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white  placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent"
                 />
               </div>
 
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <LockClosedIcon className="h-5 w-5 text-white/70" />
+                  <LockClosedIcon className="h-5 w-5 text-white" />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="Password"
-                  value={formData.password}
+                  value={password}
                   onChange={handleChange}
                   required
                   className="w-full pl-10 pr-10 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent"
@@ -110,7 +143,12 @@ export default function Login() {
               type="submit"
               className="w-full bg-white cursor-pointer text-blue-600 py-3 px-4 rounded-lg font-medium hover:bg-gray-100 transition duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-500"
             >
-              Sign in
+            {userLoading ? <InfinitySpin 
+              visible={true}
+              width="80"
+              color="purple"
+              ariaLabel="infinity-spin-loading"
+              /> : 'Sign in'}
             </button>
           </form>
 

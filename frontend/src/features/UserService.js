@@ -27,16 +27,25 @@ export const loginUser = async (userData) => {
   return response.data;
 };
 
-// ✅ All Users (FIXED)
+
+
+
+// logout
+
+export const Logout = ()=>{
+
+  localStorage.removeItem('user')
+}
+
 export const AllUsers = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const config = {
     headers: {
-      Authorization: `Bearer ${user?.token}`, // Send token if required by your backend
+      Authorization: `Bearer ${user?.token}`, 
     },
   };
 
   const response = await axios.get(`${BASE_URL}/Users`, config);
-  return response.data; // ✅ This was missing
+  return response.data; 
 };

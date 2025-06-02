@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 const ProtectRoute = ({ children }) => {
   const isAuthenticated = !!localStorage.getItem('user');
-  return isAuthenticated ? children : <Navigate to="/" replace />;
+  return isAuthenticated ? children : <Navigate to="*" replace />;
 };
 
 export default ProtectRoute;
