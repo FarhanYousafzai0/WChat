@@ -32,24 +32,29 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const {userSuccess,userError,userLoading} = useSelector((state)=>state.auth);
-  useEffect(()=>{
+ 
 
-  if(userSuccess){
-    toast.success("Login successfully!")
+  useEffect(() => {
+    if (userSuccess) {
+      toast.success('User registered successfully!');
+      setFormData({
+        password:'',
+        identifier:''
+      });
       navigate('/home');
-  }
+    }
+  }, [userSuccess, navigate]);
 
-  if(userError){
-
-    toast.error(userError)
-  }
-
-
-  },[])
+  // Handle error toast
+  useEffect(() => {
+    if (userError) {
+      toast.error(userError);
+    }
+  }, [userError]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Login data:', formData);
+   
   
 
     const loginData = {
@@ -141,11 +146,11 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full bg-white cursor-pointer text-blue-600 py-3 px-4 rounded-lg font-medium hover:bg-gray-100 transition duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-500"
+              className="w-full bg-white cursor-pointer text-blue-600 flex items-center justify-center py-3 px-4 rounded-lg font-medium hover:bg-gray-100 transition duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-500"
             >
             {userLoading ? <InfinitySpin 
               visible={true}
-              width="80"
+              width="60"
               color="purple"
               ariaLabel="infinity-spin-loading"
               /> : 'Sign in'}

@@ -18,7 +18,7 @@ export const SettingsSidebar = ({ isOpen, onClose }) => {
 
         dispatch(clearUser());
         
-        toast.success("Logout Successfully");
+     
     }
 
 
@@ -90,7 +90,7 @@ export const SettingsSidebar = ({ isOpen, onClose }) => {
           <Link 
             to="/"
             onClick={handleLogout}
-            className="mt-auto flex items-center cursor-pointer gap-3 p-3 text-white hover:bg-red-500/20 rounded-lg transition border border-white/20"
+            className="mt-auto flex items-center cursor-pointer gap-3 p-3 text-white hover:bg-white hover:text-black rounded-lg transition border border-white/20"
           >
             <Logout sx={{ fontSize: 24 }} />
             <span>Log Out</span>

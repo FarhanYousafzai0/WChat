@@ -45,7 +45,7 @@ export default function Register() {
   // Handle error toast
   useEffect(() => {
     if (userError) {
-      toast.userError(userError);
+      toast.error(userError);
     }
   }, [userError]);
 
