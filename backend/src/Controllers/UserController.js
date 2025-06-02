@@ -70,44 +70,36 @@ export const Register = async (req, res) => {
 // Login:
 
 
-export const LoginUser = async(req,res)=>{
+export const LoginUser = async (req, res) => {
+  const { identifier, password } = req.body;
 
-  const {identifier,password} = req.body
-
-
-//   Check if the user enter both vale.
-  if(!identifier || !password){
-    res.status(400).json({message:"Please fill both fields"});
+  if (!identifier || !password) {
+    return res.status(400).json({ message: "Please fill both fields" });
   }
 
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
 
-    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+  const findUser = await User.findOne(
+    isEmail ? { email: identifier } : { name: identifier }
+  );
 
+  if (!findUser) {
+    return res.status(400).json({ message: "User not found." });
+  }
 
-    const findUser = await User.findOne(
-        isEmail ? {email: identifier} : {name:identifier}
-    )
+  const isMatch = await bcrypt.compare(password, findUser.password); // ✅ Add await
 
-    if(!findUser){
-        res.status(400).json({message:"User not found."})
-    }
+  if (!isMatch) {
+    return res.status(400).json({ message: "Password not match." });
+  }
 
-
-    const isMatch = bcrypt.compare(password,findUser.password);
-
-
-    if(!isMatch){
-        res.status(400).json({message:"Password not match."})
-    }
-
-
-    res.status(200).json({
+  res.status(200).json({
     id: findUser._id,
     name: findUser.name,
     email: findUser.email,
     avatar: findUser.avatar,
     gender: findUser.gender,
-    token: generateToken(findUser._id)
+    token: generateToken(findUser._id),
   });
 };
 
@@ -121,8 +113,8 @@ export const LoginUser = async(req,res)=>{
 export const GetAllUsers = async(req,res)=>{
 
   const AllUsers = await User.find();
-if(!AllUsers){
-  res.status(400).json({message:"Users not found."});
+if (!AllUsers) {
+  res.status(400).json({ message: "Users not found." });
 }
   res.status(200).json(AllUsers);
 

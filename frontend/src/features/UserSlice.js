@@ -13,14 +13,16 @@ const initialState = {
   allUsers: [],
 };
 
-// ✅ RegisterJ
+// ✅ Register
 export const createUserData = createAsyncThunk(
   "user/register",
   async (userData, thunkAPI) => {
     try {
       return await createUser(userData);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message || "Register failed");
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Register failed"
+      );
     }
   }
 );
@@ -32,21 +34,29 @@ export const loginUserData = createAsyncThunk(
     try {
       return await loginUser(userData);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message || "Login failed");
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Login failed"
+      );
     }
   }
 );
 
-
-// ✅ All User:
-
-export const AllUserData = createAsyncThunk('Users',async(_,thunkAPI)=>{
-try {
-  return await AllUsers();
-} catch (error) {
-  thunkAPI.rejectWithValue(error.response.data.message)
-}
-})
+// ✅ All Users
+export const AllUserData = createAsyncThunk(
+  "user/all",
+  async (_, thunkAPI) => {
+    try {
+      const response = await AllUsers();
+      console.log("✅ All users data:", response);
+      return response;
+    } catch (error) {
+      console.error("❌ Error in AllUserData:", error.response?.data || error.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Fetching all users failed"
+      );
+    }
+  }
+);
 
 // ✅ Slice
 const userSlice = createSlice({
@@ -97,8 +107,9 @@ const userSlice = createSlice({
         state.userMessage = action.payload;
         state.user = null;
       })
-//       All-Users:
-       .addCase(AllUserData.pending, (state) => {
+
+      // All Users
+      .addCase(AllUserData.pending, (state) => {
         state.userLoading = true;
       })
       .addCase(AllUserData.fulfilled, (state, action) => {
@@ -110,7 +121,6 @@ const userSlice = createSlice({
         state.userLoading = false;
         state.userError = true;
         state.userMessage = action.payload;
-        
       });
   },
 });
