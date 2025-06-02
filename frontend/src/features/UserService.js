@@ -38,14 +38,9 @@ export const Logout = ()=>{
 }
 
 export const AllUsers = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${user?.token}`, 
-    },
-  };
+  
 
-  const response = await axios.get(`${BASE_URL}/Users`, config);
+  const response = await axios.get(`${BASE_URL}/Users`, );
   return response.data; 
 };

@@ -11,6 +11,6 @@ Router.post('/register',Register);
 
 Router.post('/login',LoginUser);
 
-Router.get('/Users',Authentication,GetAllUsers);
+Router.get('/Users',GetAllUsers);
 
 export default Router

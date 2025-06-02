@@ -53,7 +53,7 @@ const MessagePanel = ({ selectedUser }) => {
     <div className='flex flex-col h-full rounded-md w-full bg-gradient-to-br from-blue-400/10 via-purple-500/10 to-indigo-600/10 backdrop-blur-sm'>
       {/* Chat header */}
       {selectedUser ? (
-        <div className='flex items-center justify-between p-4  bg-gradient-to-r from-blue-400 to-indigo-600  border-b border-white/20'>
+        <div className='flex items-center justify-between p-4 rounded-md  bg-gradient-to-r from-blue-400 to-indigo-600  border-b border-white/20'>
           <div className='flex items-center'>
             <Avatar src={selectedUser.avatar} alt={selectedUser.name} className='border-2 border-white' />
             <div className='ml-3'>
@@ -73,7 +73,7 @@ const MessagePanel = ({ selectedUser }) => {
           </div>
         </div>
       ) : (
-        <div className='flex items-center text-white justify-between p-4   bg-gradient-to-b from-blue-400 to-indigo-600'>
+        <div className='flex items-center text-white justify-between p-4 rounded-md   bg-gradient-to-b from-blue-400 to-indigo-600'>
           <p className='font-semibold text-lg'>Select a chat to start messaging</p>
         </div>
       )}
@@ -127,7 +127,8 @@ const MessagePanel = ({ selectedUser }) => {
             if (e.key === 'Enter') handleMessage();
           }}
           placeholder='Type a message'
-          className='flex-1 mx-3 p-2 bg-white/20 text-black placeholder-white/50 rounded-full outline-none px-4 focus:bg-white/30 transition-all duration-200'
+          className='flex-1 mx-3 p-2 bg-white/20 text-black placeholder-white/50 rounded-full outline-none px-4 focus:bg-white/30 transition-all 
+          duration-200'
         />
         <IconButton 
           onClick={handleMessage}
