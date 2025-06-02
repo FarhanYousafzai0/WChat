@@ -55,11 +55,11 @@ const Sidebar = () => {
         <div className='flex items-center justify-between p-2'>
           <h4 className='text-3xl font-semibold text-white'>Chats</h4>
           <div className='flex items-center gap-1'>
-            <IconButton className='text-white hover:bg-white/10'>
-              <AddBox />
+            <IconButton className='text-white '>
+              <AddBox className='text-white' />
             </IconButton>
             <IconButton className='text-white hover:bg-white/10'>
-              <MoreVert />
+              <MoreVert className='text-white' />
             </IconButton>
           </div>
         </div>
