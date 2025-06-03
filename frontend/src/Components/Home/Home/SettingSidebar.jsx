@@ -3,9 +3,9 @@ import { Logout, Close, Settings, Notifications, Security, Edit, Save } from '@m
 import { Avatar, IconButton, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import toast from 'react-hot-toast';
-import { clearUser, updateUsername } from '../../../features/UserService';
 import { useState } from 'react';
+import { clearUser } from '../../../features/UserService';
+import { NewUsername } from '../../../features/UserSlice';
 
 export const SettingsSidebar = ({ isOpen, onClose }) => {
   const { user } = useSelector((state) => state.auth);
@@ -13,26 +13,25 @@ export const SettingsSidebar = ({ isOpen, onClose }) => {
   const [newUsername, setNewUsername] = useState(user?.name || '');
   const dispatch = useDispatch();
 
+
+
+  
   const handleLogout = () => {
     dispatch(clearUser());
   };
 
-  const handleUpdateUsername = async () => {
-    if (!newUsername.trim()) return toast.error("Username can't be empty");
+  const handleUpdateUsername = () => {
+    const newData = {
+      userId: user?._id,         
+      newUsername: newUsername, 
+    };
 
-    try {
-      // Update in backend
-      const updated = await dispatch(updateUsername({ id: user._id, name: newUsername }));
-      if (updateUsername.fulfilled.match(updated)) {
-        toast.success("Username updated!");
-        setIsEditing(false);
-      } else {
-        toast.error("Failed to update username");
-      }
-    } catch (err) {
-      toast.error("Something went wrong");
-    }
+   
+    dispatch(NewUsername(newData));
+    setIsEditing(false); 
   };
+  
+
 
   return (
     <motion.div
@@ -65,15 +64,15 @@ export const SettingsSidebar = ({ isOpen, onClose }) => {
                     onChange={(e) => setNewUsername(e.target.value)}
                     className="bg-white rounded"
                   />
-                  <IconButton onClick={handleUpdateUsername} className="text-white">
-                    <Save />
+                  <IconButton onClick={handleUpdateUsername} className="text-white  ">
+                    <Save className='text-white' />
                   </IconButton>
                 </>
               ) : (
                 <div className="flex items-center gap-2">
                   <h3 className="text-white font-medium">{user?.name}</h3>
                   <IconButton size="small" onClick={() => setIsEditing(true)} className="text-white">
-                    <Edit fontSize="small" />
+                    <Edit fontSize="small text-white" />
                   </IconButton>
                 </div>
               )}

@@ -50,7 +50,12 @@ export const AllUsers = async () => {
 
 // 
 
-export const updateUsername = async (userId, newUsername) => {
-  const response = await axios.put(`/api/user/${userId}/update-username`, { name: newUsername });
-  return response.data; // Must return updated user object
+export const updateUsername = async (UpdateData) => {
+ 
+  const response = await axios.put(
+    `${BASE_URL}/update-username/${UpdateData.userId}`,
+    { newUsername: UpdateData.newUsername }
+  );
+  return response.data;
 };
+

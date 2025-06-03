@@ -14,6 +14,6 @@ Router.post('/login',LoginUser);
 Router.get('/Users',GetAllUsers);
 
 
-Router.put('/update-username',updateUsername)
+Router.put('/update-username/:userId',updateUsername)
 
 export default Router

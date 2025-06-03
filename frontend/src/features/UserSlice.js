@@ -52,9 +52,9 @@ export const AllUserData = createAsyncThunk(
 // ✅ Update Username
 export const NewUsername = createAsyncThunk(
   "user/updateUsername",
-  async ({ userId, newUsername }, thunkAPI) => {
+  async (UpdateData, thunkAPI) => {
     try {
-      return await updateUsername(userId, newUsername);
+      return await updateUsername(UpdateData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || "Username update failed");
     }
@@ -131,11 +131,11 @@ const userSlice = createSlice({
         state.userLoading = true;
       })
       .addCase(NewUsername.fulfilled, (state, action) => {
-        state.userLoading = false;
-        state.userSuccess = true;
-        state.user = action.payload;
-        localStorage.setItem("user", JSON.stringify(action.payload)); // ✅ persist change
-      })
+  state.userLoading = false;
+  state.userSuccess = true;
+  state.user = action.payload;  // <-- update user info here
+  localStorage.setItem("user", JSON.stringify(action.payload)); // persist updated user
+})
       .addCase(NewUsername.rejected, (state, action) => {
         state.userLoading = false;
         state.userError = true;

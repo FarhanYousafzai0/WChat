@@ -130,6 +130,11 @@ export const updateUsername = async (req, res) => {
     const { userId } = req.params;
     const { newUsername } = req.body;
 
+    // ✅ Validate input
+    if (!userId || !newUsername?.trim()) {
+      return res.status(400).json({ message: 'User ID and new username are required.' });
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { name: newUsername },
@@ -137,13 +142,16 @@ export const updateUsername = async (req, res) => {
     );
 
     if (!updatedUser) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'User not found.' });
     }
 
     res.status(200).json(updatedUser);
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update username', error: err.message });
+    console.error('Error updating username:', err.message);
+    res.status(500).json({
+      message: 'Failed to update username.',
+      error: err.message,
+    });
   }
 };
- 
 
