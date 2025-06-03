@@ -22,8 +22,13 @@ const MessagePanel = ({ selectedUser }) => {
 
   // Fetch messages when selectedUser changes
   useEffect(() => {
+
+    const newMessage = {
+      sender_id :user?._id,
+      receiver_id:selectedUser?._id
+    }
     if (selectedUser?._id) {
-      getMessages(user._id, selectedUser._id)
+      getMessages(newMessage)
         .then(setChatHistory)
         .catch((err) => console.error('Failed to fetch messages:', err));
     } else {

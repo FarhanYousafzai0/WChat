@@ -7,9 +7,7 @@ export const sendMessage = async (data) => {
   return res.data;
 };
 
-export const getMessages = async (sender_id, receiver_id) => {
-  const res = await axios.get(`${API_URL}/get-message`, {
-    params: { sender_id, receiver_id },
-  });
+export const getMessages = async (getMessages) => {
+  const res = await axios.get(`${API_URL}/get-message/${getMessages?.sender_id}/${getMessages?.receiver_id}`, );
   return res.data;
 };

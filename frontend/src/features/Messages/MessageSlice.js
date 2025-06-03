@@ -5,18 +5,27 @@ import { getMessages, sendMessage } from './MessageService';
 // Async thunk to fetch messages between two users
 export const fetchMessages = createAsyncThunk(
   'chat/fetchMessages',
-  async ({ sender_id, receiver_id }) => {
-    const messages = await getMessages(sender_id, receiver_id);
+  async (getMessages,thunkAPI) => {
+   try {
+     const messages = await getMessages(getMessages);
     return messages;
+   } catch (error) {
+    thunkAPI.rejectWithValue(error.response?.data.message)
+   }
   }
 );
 
 // Async thunk to send a new message
 export const sendNewMessage = createAsyncThunk(
   'chat/sendNewMessage',
-  async (data) => {
-    const newMessage = await sendMessage(data);
+  async (data,thunkAPI) => {
+    try {
+        const newMessage = await sendMessage(data);
     return newMessage;
+        
+    } catch (error) {
+        thunkAPI.rejectWithValue(error.response?.data?.message)
+    }
   }
 );
 
