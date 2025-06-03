@@ -25,10 +25,6 @@ const chatSlice = createSlice({
   initialState: {
     selectedUser: null,  // currently selected chat user
     messages: [],        // chat messages array
-    getMessagesError :false,
-    getMessagesSuccess:false,
-    getMessagesMessage : ''
-    
   },
   reducers: {
     setSelectedUser: (state, action) => {
@@ -41,7 +37,6 @@ const chatSlice = createSlice({
       .addCase(fetchMessages.fulfilled, (state, action) => {
         state.messages = action.payload;
       })
-      
       .addCase(sendNewMessage.fulfilled, (state, action) => {
         state.messages.push(action.payload);
       });
