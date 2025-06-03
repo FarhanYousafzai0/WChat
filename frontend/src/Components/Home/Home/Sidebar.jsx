@@ -5,17 +5,16 @@ import TimelapseIcon from '@mui/icons-material/Timelapse';
 import PixIcon from '@mui/icons-material/Pix';
 import { IconButton, InputBase, Avatar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AllUserData } from '../../features/UserSlice';
 import { SettingsSidebar } from './SettingSidebar';
+import { AllUserData } from '../../../features/UserSlice';
 
-const Sidebar = () => {
+const Sidebar = ({ onSelectUser }) => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const dispatch = useDispatch();
 
   const { user, allUsers } = useSelector((state) => state.auth);
 
-  // Fetch users once on mount
   useEffect(() => {
     dispatch(AllUserData());
   }, [dispatch]);
@@ -82,6 +81,7 @@ const Sidebar = () => {
           {filteredUsers.map((u) => (
             <div
               key={u._id}
+              onClick={() => onSelectUser(u)}
               className='flex items-center p-3 hover:bg-white/10 rounded-lg cursor-pointer transition-colors duration-200'
             >
               <Avatar

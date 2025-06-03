@@ -1,19 +1,9 @@
-import express from 'express'
-import { PostMessages } from '../Controllers/MessagesControllers.js';
-import { Authentication } from '../MIddleware/AuthMiddleware.js';
+import express from 'express';
+import { getMessages, PostMessage } from '../Controllers/MessagesControllers.js';
 
 const Router = express.Router();
 
+Router.post('/post-message', PostMessage);
+Router.get('/get-message', getMessages);
 
-
-
-Router.post('/Post-message',Authentication,PostMessages);
-
-
-
-
-
-
-
-
-export default Router
+export default Router;

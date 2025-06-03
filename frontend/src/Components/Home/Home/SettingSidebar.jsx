@@ -3,8 +3,8 @@ import { Logout, Close, Settings, Notifications, Security } from '@mui/icons-mat
 import { Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearUser } from '../../features/UserService';
 import toast from 'react-hot-toast';
+import { clearUser } from '../../../features/UserService';
 
 export const SettingsSidebar = ({ isOpen, onClose }) => {
 
