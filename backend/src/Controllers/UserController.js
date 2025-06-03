@@ -119,3 +119,31 @@ if (!AllUsers) {
   res.status(200).json(AllUsers);
 
 }
+
+
+
+
+// Update username ;
+
+export const updateUsername = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { newUsername } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { name: newUsername },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update username', error: err.message });
+  }
+};
+ 
+

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createUser, loginUser, clearUser, AllUsers } from "./UserService";
+import { createUser, loginUser, clearUser, AllUsers, updateUsername } from "./UserService";
 
 const storedUser = JSON.parse(localStorage.getItem("user"));
 
@@ -13,7 +13,7 @@ const initialState = {
   allUsers: [],
 };
 
-// ✅ RegisterJ
+// ✅ Register
 export const createUserData = createAsyncThunk(
   "user/register",
   async (userData, thunkAPI) => {
@@ -37,16 +37,29 @@ export const loginUserData = createAsyncThunk(
   }
 );
 
+// ✅ All Users
+export const AllUserData = createAsyncThunk(
+  "user/allUsers",
+  async (_, thunkAPI) => {
+    try {
+      return await AllUsers();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Fetching users failed");
+    }
+  }
+);
 
-// ✅ All User:
-
-export const AllUserData = createAsyncThunk('Users',async(_,thunkAPI)=>{
-try {
-  return await AllUsers();
-} catch (error) {
-  thunkAPI.rejectWithValue(error.response.data.message)
-}
-})
+// ✅ Update Username
+export const NewUsername = createAsyncThunk(
+  "user/updateUsername",
+  async ({ userId, newUsername }, thunkAPI) => {
+    try {
+      return await updateUsername(userId, newUsername);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Username update failed");
+    }
+  }
+);
 
 // ✅ Slice
 const userSlice = createSlice({
@@ -97,8 +110,9 @@ const userSlice = createSlice({
         state.userMessage = action.payload;
         state.user = null;
       })
-//       All-Users:
-       .addCase(AllUserData.pending, (state) => {
+
+      // All Users
+      .addCase(AllUserData.pending, (state) => {
         state.userLoading = true;
       })
       .addCase(AllUserData.fulfilled, (state, action) => {
@@ -110,7 +124,22 @@ const userSlice = createSlice({
         state.userLoading = false;
         state.userError = true;
         state.userMessage = action.payload;
-        
+      })
+
+      // Update Username
+      .addCase(NewUsername.pending, (state) => {
+        state.userLoading = true;
+      })
+      .addCase(NewUsername.fulfilled, (state, action) => {
+        state.userLoading = false;
+        state.userSuccess = true;
+        state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload)); // ✅ persist change
+      })
+      .addCase(NewUsername.rejected, (state, action) => {
+        state.userLoading = false;
+        state.userError = true;
+        state.userMessage = action.payload;
       });
   },
 });

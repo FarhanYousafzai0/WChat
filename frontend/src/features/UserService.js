@@ -44,3 +44,13 @@ export const AllUsers = async () => {
   const response = await axios.get(`${BASE_URL}/Users`, );
   return response.data; 
 };
+
+
+
+
+// 
+
+export const updateUsername = async (userId, newUsername) => {
+  const response = await axios.put(`/api/user/${userId}/update-username`, { name: newUsername });
+  return response.data; // Must return updated user object
+};
