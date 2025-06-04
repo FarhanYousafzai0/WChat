@@ -27,13 +27,18 @@ const io = new Server(MY_Server, {
 io.on('connection', (socket) => {
   console.log(` Socket connected: ${socket.id}`);
 
-
+// Messsage
   socket.on('Sent-Message',(data)=>{
-
     socket.broadcast.emit('Received-Message',data)
     
   })
 
+
+  // Vedio-call:
+
+  socket.on('calling',(data)=>{
+    socket.broadcast.emit('calling-received',data);
+  })
 
 });
 

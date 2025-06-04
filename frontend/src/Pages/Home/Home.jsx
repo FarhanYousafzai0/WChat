@@ -6,7 +6,7 @@ const Home = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   return (
-    <div className='flex items-center gap-1 w-screen h-dvh p-3 shadow-lg'>
+    <div className='flex  items-center  gap-1 w-screen h-dvh p-3 shadow-lg'>
       <Sidebar onSelectUser={setSelectedUser} />
       <MessagePanel selectedUser={selectedUser} />
     </div>

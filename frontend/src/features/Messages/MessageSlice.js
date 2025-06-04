@@ -3,6 +3,22 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getMessages, sendMessage } from './MessageService';
 
 // Async thunk to fetch messages between two users
+
+
+
+
+const initialState = {
+selectedUser: null,  
+    messages: [], 
+    messageLoading:false,
+    messageError:false,
+    messageSuccess:false
+}
+
+
+
+
+
 export const fetchMessages = createAsyncThunk(
   'chat/fetchMessages',
   async (getMessages,thunkAPI) => {
@@ -29,12 +45,9 @@ export const sendNewMessage = createAsyncThunk(
   }
 );
 
-const chatSlice = createSlice({
+export const chatSlice = createSlice({
   name: 'chat',
-  initialState: {
-    selectedUser: null,  // currently selected chat user
-    messages: [],        // chat messages array
-  },
+  initialState,
   reducers: {
     setSelectedUser: (state, action) => {
       state.selectedUser = action.payload;
@@ -43,9 +56,17 @@ const chatSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+    .addCase(fetchMessages.rejected, (state, action) => {
+      state.messageError = true
+      })
+    .addCase(fetchMessages.pending, (state, action) => {
+        messageLoading = true
+      })
       .addCase(fetchMessages.fulfilled, (state, action) => {
+        state.messageSuccess = true
         state.messages = action.payload;
       })
+
       .addCase(sendNewMessage.fulfilled, (state, action) => {
         state.messages.push(action.payload);
       });

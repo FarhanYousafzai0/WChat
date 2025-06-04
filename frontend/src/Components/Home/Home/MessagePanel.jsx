@@ -12,6 +12,9 @@ const MessagePanel = ({ selectedUser }) => {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const messagesEndRef = useRef(null);
+  const [caller,setCaller] = useState(null);
+  const [call,setCall] = useState(false);
+  cons
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
@@ -39,7 +42,6 @@ const MessagePanel = ({ selectedUser }) => {
   // Listen for incoming messages via socket
   useEffect(() => {
     const handleReceivedMessage = (data) => {
-      // Only add if message is from currently selected user
       if (data.sender_id === selectedUser?._id) {
         setChatHistory((prev) => [...prev, data]);
       }
@@ -79,7 +81,38 @@ const MessagePanel = ({ selectedUser }) => {
     setMessage('');
   };
 
+
+
+  const handleVedioCall = async()=>{
+    socket.emit('calling',{sender_id:user?._id,receiver_id:selectedUser?._id,sender_name:user?.name});
+
+  }
+
+
+  useEffect(()=>{
+
+     socket.on('calling-received',(data)=>{
+
+      if(data?.receiver_id == user?._id){
+        setCaller(data?.sender_name);
+        setCall(true);
+        const audio = new Audio('/calling.mp3');
+        audio.play();
+      }
+
+     })
+
+  })
+
+
+
+
+
   return (
+  <>
+  
+  
+  
     <div className='flex flex-col h-full rounded-md w-full bg-gradient-to-br from-blue-400/10 via-purple-500/10 to-indigo-600/10 backdrop-blur-sm'>
       {/* Header */}
       {selectedUser ? (
@@ -153,7 +186,8 @@ const MessagePanel = ({ selectedUser }) => {
           <Send />
         </IconButton>
       </div>
-    </div>
+    </div>d
+  </>
   );
 };
 
