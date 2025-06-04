@@ -6,6 +6,7 @@ import Register from './Pages/Auth/Register';
 import ProtectRoute from './Components/Home/Error/ProtectRoute';
 import toast, { Toaster } from 'react-hot-toast';
 import NotFound from './Components/Home/Error/NotFound';
+import VideoCallZego from './Components/Home/Vedio/Video';
 
 const App = () => {
   return (
@@ -26,6 +27,15 @@ const App = () => {
             }
           />
 
+
+<Route
+            path="/video/:sender_id/:receiver_id"
+            element={
+              <ProtectRoute>
+                <VideoCallZego />
+              </ProtectRoute>
+            }
+          />
           {/* Fallback for all other routes */}
           <Route path="*" element={<NotFound />} />
         </Routes>

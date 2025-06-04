@@ -2,9 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Avatar, IconButton } from '@mui/material';
 import { Send, AttachFile, MoreVert, InsertEmoticon } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
+import { FaVideo } from "react-icons/fa6";
+
 import { io } from 'socket.io-client';
 import { getMessages } from '../../../features/Messages/MessageService';
 import { sendNewMessage } from '../../../features/Messages/MessageSlice';
+import { Link } from 'react-router-dom';
+import ToastVideo from '../Vedio/ToastVideo';
 
 const socket = io('http://localhost:1576');
 
@@ -14,7 +18,7 @@ const MessagePanel = ({ selectedUser }) => {
   const messagesEndRef = useRef(null);
   const [caller,setCaller] = useState(null);
   const [call,setCall] = useState(false);
-  cons
+
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
@@ -83,7 +87,8 @@ const MessagePanel = ({ selectedUser }) => {
 
 
 
-  const handleVedioCall = async()=>{
+  const handleVedioCall = ()=>{
+    
     socket.emit('calling',{sender_id:user?._id,receiver_id:selectedUser?._id,sender_name:user?.name});
 
   }
@@ -111,7 +116,7 @@ const MessagePanel = ({ selectedUser }) => {
   return (
   <>
   
-  
+  {call && <ToastVideo callerName={caller} setCall={setCall} />}
   
     <div className='flex flex-col h-full rounded-md w-full bg-gradient-to-br from-blue-400/10 via-purple-500/10 to-indigo-600/10 backdrop-blur-sm'>
       {/* Header */}
@@ -124,13 +129,11 @@ const MessagePanel = ({ selectedUser }) => {
               <p className='text-xs text-white/80'>Online</p>
             </div>
           </div>
-          <div className='flex gap-1'>
-            <IconButton className='text-white hover:bg-white/10'>
-              <AttachFile />
-            </IconButton>
-            <IconButton className='text-white hover:bg-white/10'>
-              <MoreVert />
-            </IconButton>
+          <div className='flex gap-1 items-center '>
+
+<Link to={`/video/${user?._id}/${selectedUser?._id}`} target='_blank' onClick={handleVedioCall}>
+            <FaVideo   className='text-white cursor-pointer'/>
+            </Link>
           </div>
         </div>
       ) : (

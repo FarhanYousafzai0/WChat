@@ -37,7 +37,14 @@ io.on('connection', (socket) => {
   // Vedio-call:
 
   socket.on('calling',(data)=>{
+    console.log(data);
     socket.broadcast.emit('calling-received',data);
+  })
+
+
+  socket.on('Accept-calling',(data)=>{
+console.log(data)
+    socket.broadcast.emit('Accepted',data);
   })
 
 });
