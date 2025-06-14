@@ -33,7 +33,7 @@ const ToastVideo = ({ callerName ,setCall}) => {
 
   return (
     <div className="fixed top-6 right-6 z-50 max-w-xs w-full transition-all duration-500 ease-in-out transform opacity-100 translate-y-0 scale-100">
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl shadow-2xl p-4 flex flex-col gap-3">
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-xl shadow-2xl p-4 flex flex-col gap-3">
         <div className="flex items-center gap-3">
           <div className="bg-white/20 p-2 rounded-full">
             <svg
